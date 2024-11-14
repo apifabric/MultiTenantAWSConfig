@@ -1,0 +1,560 @@
+about:
+  date: November 14, 2024 15:39:18
+  recent_changes: works with modified safrs-react-admin
+  version: 0.0.0
+api_root: '{http_type}://{swagger_host}:{port}/{api}'
+authentication: '{system-default}'
+entities:
+  Container:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: tenant_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: status
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents a container tracked in the AWS system.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    hidden: {}
+    home_template: home_template.html
+    info_list: Represents a container tracked in the AWS system.
+    label: Container
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - container_id
+      name: ContainerLogList
+      resource: ContainerLog
+    - direction: tomany
+      fks:
+      - container_id
+      name: UserContainerAccessList
+      resource: UserContainerAccess
+    - direction: toone
+      fks:
+      - tenant_id
+      name: tenant
+      resource: Tenant
+    type: Container
+  ContainerLog:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: container_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: timestamp
+      required: true
+      type: DATETIME
+    - name: message
+      required: true
+      template: text
+      type: VARCHAR
+    description: Tracks logs/events from containers.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    hidden: {}
+    home_template: home_template.html
+    info_list: Tracks logs/events from containers.
+    label: ContainerLog
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - container_id
+      name: container
+      resource: Container
+    type: ContainerLog
+  Database:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: tenant_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: engine
+      template: text
+      type: VARCHAR
+    - name: version
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents a database managed by the application.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    hidden: {}
+    home_template: home_template.html
+    info_list: Represents a database managed by the application.
+    label: Database
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - database_id
+      name: DatabaseEventList
+      resource: DatabaseEvent
+    - direction: tomany
+      fks:
+      - database_id
+      name: UserDatabaseAccessList
+      resource: UserDatabaseAccess
+    - direction: toone
+      fks:
+      - tenant_id
+      name: tenant
+      resource: Tenant
+    type: Database
+  DatabaseEvent:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: database_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: event_time
+      required: true
+      type: DATETIME
+    - name: details
+      required: true
+      template: text
+      type: VARCHAR
+    description: Represents an event or change in the database.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    hidden: {}
+    home_template: home_template.html
+    info_list: Represents an event or change in the database.
+    label: DatabaseEvent
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - database_id
+      name: database
+      resource: Database
+    type: DatabaseEvent
+  S3Bucket:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: tenant_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: region
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents an S3 bucket owned by a tenant.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    hidden: {}
+    home_template: home_template.html
+    info_list: Represents an S3 bucket owned by a tenant.
+    label: S3Bucket
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - s3_bucket_id
+      name: S3BucketEventList
+      resource: S3BucketEvent
+    - direction: tomany
+      fks:
+      - s3_bucket_id
+      name: UserS3BucketAccessList
+      resource: UserS3BucketAccess
+    - direction: toone
+      fks:
+      - tenant_id
+      name: tenant
+      resource: Tenant
+    type: S3Bucket
+  S3BucketEvent:
+    columns:
+    - label: ' description*'
+      name: description
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: s3_bucket_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: event_time
+      required: true
+      type: DATETIME
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents an event occurring in an S3 bucket.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: description
+    hidden: {}
+    home_template: home_template.html
+    info_list: Represents an event occurring in an S3 bucket.
+    label: S3BucketEvent
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - s3_bucket_id
+      name: s3_bucket
+      resource: S3Bucket
+    type: S3BucketEvent
+  SecurityIncident:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: tenant_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: timestamp
+      required: true
+      type: DATETIME
+    - name: details
+      required: true
+      template: text
+      type: VARCHAR
+    description: Logs security incidents related to any component.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    hidden: {}
+    home_template: home_template.html
+    info_list: Logs security incidents related to any component.
+    label: SecurityIncident
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - tenant_id
+      name: tenant
+      resource: Tenant
+    type: SecurityIncident
+  Tenant:
+    columns:
+    - label: ' name*'
+      name: name
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents a tenant in the system.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: name
+    hidden: {}
+    home_template: home_template.html
+    info_list: Represents a tenant in the system.
+    label: Tenant
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - tenant_id
+      name: ContainerList
+      resource: Container
+    - direction: tomany
+      fks:
+      - tenant_id
+      name: DatabaseList
+      resource: Database
+    - direction: tomany
+      fks:
+      - tenant_id
+      name: S3BucketList
+      resource: S3Bucket
+    - direction: tomany
+      fks:
+      - tenant_id
+      name: SecurityIncidentList
+      resource: SecurityIncident
+    - direction: tomany
+      fks:
+      - tenant_id
+      name: UserList
+      resource: User
+    type: Tenant
+  User:
+    columns:
+    - label: ' username*'
+      name: username
+      required: true
+      search: true
+      sort: true
+      template: text
+      type: VARCHAR
+    - name: tenant_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: email
+      required: true
+      template: text
+      type: VARCHAR
+    - name: id
+      template: integer
+      type: INTEGER
+    description: Represents a user associated with a tenant.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: username
+    hidden: {}
+    home_template: home_template.html
+    info_list: Represents a user associated with a tenant.
+    label: User
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: tomany
+      fks:
+      - user_id
+      name: UserContainerAccessList
+      resource: UserContainerAccess
+    - direction: tomany
+      fks:
+      - user_id
+      name: UserDatabaseAccessList
+      resource: UserDatabaseAccess
+    - direction: tomany
+      fks:
+      - user_id
+      name: UserS3BucketAccessList
+      resource: UserS3BucketAccess
+    - direction: toone
+      fks:
+      - tenant_id
+      name: tenant
+      resource: Tenant
+    type: User
+  UserContainerAccess:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: container_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: user_id
+      required: true
+      template: integer
+      type: INTEGER
+    description: Specifies which containers a user has access to.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    hidden: {}
+    home_template: home_template.html
+    info_list: Specifies which containers a user has access to.
+    label: UserContainerAccess
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - container_id
+      name: container
+      resource: Container
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: UserContainerAccess
+  UserDatabaseAccess:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: database_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: user_id
+      required: true
+      template: integer
+      type: INTEGER
+    description: Specifies which databases a user can access.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    hidden: {}
+    home_template: home_template.html
+    info_list: Specifies which databases a user can access.
+    label: UserDatabaseAccess
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - database_id
+      name: database
+      resource: Database
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: UserDatabaseAccess
+  UserS3BucketAccess:
+    columns:
+    - label: ' id*'
+      name: id
+      search: true
+      sort: true
+      template: integer
+      type: INTEGER
+    - name: s3_bucket_id
+      required: true
+      template: integer
+      type: INTEGER
+    - name: user_id
+      required: true
+      template: integer
+      type: INTEGER
+    description: Specifies which S3 buckets a user can access.
+    detail_template: detail_template.html
+    exclude: 'false'
+    favorite: id
+    hidden: {}
+    home_template: home_template.html
+    info_list: Specifies which S3 buckets a user can access.
+    label: UserS3BucketAccess
+    mode: tab
+    new_template: new_template.html
+    primary_key:
+    - id
+    tab_groups:
+    - direction: toone
+      fks:
+      - s3_bucket_id
+      name: s3_bucket
+      resource: S3Bucket
+    - direction: toone
+      fks:
+      - user_id
+      name: user
+      resource: User
+    type: UserS3BucketAccess
+settings:
+  HomeJS: /admin-app/home.js
+  max_list_columns: 8
+  style_guide:
+    applicationLocales:
+    - en
+    - es
+    currency_symbol: $
+    currency_symbol_position: left
+    date_format: LL
+    decimal_max: '1000000000'
+    decimal_min: '0'
+    decimal_separator: .
+    edit_on_mode: dblclick
+    exclude_listpicker: false
+    include_translation: false
+    keycloak_client_id: alsclient
+    keycloak_realm: kcals
+    keycloak_url: http://localhost:8080
+    locale: en
+    max_decimal_digits: '4'
+    min_decimal_digits: '2'
+    mode: tab
+    pick_style: list
+    serviceType: OntimizeEE
+    startSessionPath: /auth/login
+    style: light
+    thousand_separator: ','
+    use_keycloak: false

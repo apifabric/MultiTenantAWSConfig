@@ -1,0 +1,46 @@
+<o-form-layout-manager attr="Database" mode="tab" title="DATABASE">
+    <div fxFill fxLayout="column" fxLayoutAlign="start">
+        <o-table 
+            attr="DatabaseTable" 
+            service="Database" 
+            entity="Database" 
+            title="DATABASE"
+            keys="id"
+            columns="name;tenant_id;engine;version;id" 
+            header-actions="R;D"
+            visible-columns="name;tenant_id;engine;version;id"  
+            sort-columns="name" 
+            query-rows="20" 
+            quick-filter="yes"
+            row-height="medium" 
+            select-all-checkbox="true" 
+            pageable="yes"  
+            auto-adjust="true" 
+            virtual-scroll="yes" 
+            edition-mode="dblclick"
+            horizontal-scroll="yes"
+            show-title="yes"
+            export-button="yes">
+            
+            <o-table-column #name attr="name" title=" name*" editable="no" required="yes" content-align="left"></o-table-column>
+            
+            <o-table-column attr="tenant_id" title="tenant_id">
+    <o-table-cell-renderer-service attr="tenant_id" 
+        service="Tenant" entity="TenantType" columns="id;name"
+        parent-keys="id:tenant_id"
+        value-column="name" keys="tenant_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+            
+            <o-table-column #engine attr="engine" title="engine" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column #version attr="version" title="version" editable="no" required="no" content-align="left"></o-table-column>
+            
+            <o-table-column #id attr="id" title="id" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+            
+            <o-table-context-menu></o-table-context-menu>
+            <o-table-paginator page-size-options="24;48;96"></o-table-paginator>
+        </o-table>
+    </div>
+</o-form-layout-manager>

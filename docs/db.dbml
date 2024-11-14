@@ -1,0 +1,118 @@
+// Copy this text, paste to https://dbdiagram.io/d
+// Or, https://databasediagram.com/app
+// Or, view in VSCode with extension: "DBML Live Preview"
+
+Project DBML {
+  Note: '''
+Container: Represents a container tracked in the AWS system.
+Tenant: Represents a tenant in the system.
+ContainerLog: Tracks logs/events from containers.
+Database: Represents a database managed by the application.
+DatabaseEvent: Represents an event or change in the database.
+S3Bucket: Represents an S3 bucket owned by a tenant.
+S3BucketEvent: Represents an event occurring in an S3 bucket.
+SecurityIncident: Logs security incidents related to any component.
+User: Represents a user associated with a tenant.
+UserContainerAccess: Specifies which containers a user has access to.
+UserDatabaseAccess: Specifies which databases a user can access.
+UserS3BucketAccess: Specifies which S3 buckets a user can access.
+'''
+}
+
+Table Container {
+    id INTEGER [primary key]
+    tenant_id INTEGER 
+    name VARCHAR 
+    status VARCHAR 
+    }
+
+Table Tenant {
+    id INTEGER [primary key]
+    name VARCHAR 
+    }
+
+Table ContainerLog {
+    id INTEGER [primary key]
+    container_id INTEGER 
+    timestamp DATETIME 
+    message VARCHAR 
+    }
+
+Table Database {
+    id INTEGER [primary key]
+    tenant_id INTEGER 
+    name VARCHAR 
+    engine VARCHAR 
+    version VARCHAR 
+    }
+
+Table DatabaseEvent {
+    id INTEGER [primary key]
+    database_id INTEGER 
+    event_time DATETIME 
+    details VARCHAR 
+    }
+
+Table S3Bucket {
+    id INTEGER [primary key]
+    tenant_id INTEGER 
+    name VARCHAR 
+    region VARCHAR 
+    }
+
+Table S3BucketEvent {
+    id INTEGER [primary key]
+    s3_bucket_id INTEGER 
+    event_time DATETIME 
+    description VARCHAR 
+    }
+
+Table SecurityIncident {
+    id INTEGER [primary key]
+    tenant_id INTEGER 
+    timestamp DATETIME 
+    details VARCHAR 
+    }
+
+Table User {
+    id INTEGER [primary key]
+    tenant_id INTEGER 
+    username VARCHAR 
+    email VARCHAR 
+    }
+
+Table UserContainerAccess {
+    id INTEGER [primary key]
+    user_id INTEGER 
+    container_id INTEGER 
+    }
+
+Table UserDatabaseAccess {
+    id INTEGER [primary key]
+    user_id INTEGER 
+    database_id INTEGER 
+    }
+
+Table UserS3BucketAccess {
+    id INTEGER [primary key]
+    user_id INTEGER 
+    s3_bucket_id INTEGER 
+    }
+
+
+
+// Relationships
+    Ref: Container.(tenant_id) < Tenant.(id)
+    Ref: ContainerLog.(container_id) < Container.(id)
+    Ref: Database.(tenant_id) < Tenant.(id)
+    Ref: DatabaseEvent.(database_id) < Database.(id)
+    Ref: S3Bucket.(tenant_id) < Tenant.(id)
+    Ref: S3BucketEvent.(s3_bucket_id) < S3Bucket.(id)
+    Ref: SecurityIncident.(tenant_id) < Tenant.(id)
+    Ref: User.(tenant_id) < Tenant.(id)
+    Ref: UserContainerAccess.(container_id) < Container.(id)
+    Ref: UserContainerAccess.(user_id) < User.(id)
+    Ref: UserDatabaseAccess.(database_id) < Database.(id)
+    Ref: UserDatabaseAccess.(user_id) < User.(id)
+    Ref: UserS3BucketAccess.(s3_bucket_id) < S3Bucket.(id)
+    Ref: UserS3BucketAccess.(user_id) < User.(id)

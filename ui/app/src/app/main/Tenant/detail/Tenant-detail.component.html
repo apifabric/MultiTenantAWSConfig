@@ -1,0 +1,272 @@
+<div class="container">
+<o-form-container breadcrumb="yes" breadcrumb-label-columns="name" breadcrumb-separator=", " class="fill-form">
+      <o-form #form attr="Tenant_form_edit" 
+        service="Tenant" 
+        entity="Tenant" 
+        fxLayout="column" 
+        show-header="yes" 
+        header-actions="R;I;U;D"
+        #oDetailForm keys="id" 
+        keys-sql-types="INTEGER" 
+        show-header-navigation="yes"
+        (onDataLoaded)="onDataLoaded($event)">
+
+  <o-row attr="row1" layout-align="start stretch">
+    <div fxLayout="row wrap" fxLayoutAlign="start start" fxFlex fxLayoutGap="14px">
+      
+      <o-text-input #name attr="name" label=" name*" enabled="yes" required="yes" fxFlex="20%" class="form-field"></o-text-input>
+      
+      <o-integer-input #id attr="id" label="id" type="integer" editable="no" required="no" ></o-integer-input>
+      
+    </div>
+  </o-row>
+      
+      <mat-tab-group fxFill>
+        
+        <mat-tab label="CONTAINER-tenant_id">
+    <div layout-padding>
+      <o-table 
+        attr="ContainerTable" 
+        service="Container" 
+        entity="Container" 
+        keys="id"
+        parent-keys="tenant_id:id"
+        columns="name;tenant_id;status;id"  
+        horizontal-scroll="yes"
+        detail-form-route="Container" 
+        edit-form-route="Container"
+        visible-columns="name;tenant_id;status;id"  
+        sort-columns="name" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #name attr="name" title=" name*" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-table-column attr="tenant_id" title="tenant_id">
+    <o-table-cell-renderer-service attr="tenant_id" 
+        service="Tenant" entity="TenantType" columns="id;name"
+        parent-keys="id:tenant_id"
+        value-column="name" keys="tenant_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #status attr="status" title="status" editable="no" required="no" content-align="left"></o-table-column>
+        
+          <o-table-column #id attr="id" title="id" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="DATABASE-tenant_id">
+    <div layout-padding>
+      <o-table 
+        attr="DatabaseTable" 
+        service="Database" 
+        entity="Database" 
+        keys="id"
+        parent-keys="tenant_id:id"
+        columns="name;tenant_id;engine;version;id"  
+        horizontal-scroll="yes"
+        detail-form-route="Database" 
+        edit-form-route="Database"
+        visible-columns="name;tenant_id;engine;version;id"  
+        sort-columns="name" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #name attr="name" title=" name*" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-table-column attr="tenant_id" title="tenant_id">
+    <o-table-cell-renderer-service attr="tenant_id" 
+        service="Tenant" entity="TenantType" columns="id;name"
+        parent-keys="id:tenant_id"
+        value-column="name" keys="tenant_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #engine attr="engine" title="engine" editable="no" required="no" content-align="left"></o-table-column>
+        
+          <o-table-column #version attr="version" title="version" editable="no" required="no" content-align="left"></o-table-column>
+        
+          <o-table-column #id attr="id" title="id" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="S3BUCKET-tenant_id">
+    <div layout-padding>
+      <o-table 
+        attr="S3BucketTable" 
+        service="S3Bucket" 
+        entity="S3Bucket" 
+        keys="id"
+        parent-keys="tenant_id:id"
+        columns="name;tenant_id;region;id"  
+        horizontal-scroll="yes"
+        detail-form-route="S3Bucket" 
+        edit-form-route="S3Bucket"
+        visible-columns="name;tenant_id;region;id"  
+        sort-columns="name" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #name attr="name" title=" name*" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-table-column attr="tenant_id" title="tenant_id">
+    <o-table-cell-renderer-service attr="tenant_id" 
+        service="Tenant" entity="TenantType" columns="id;name"
+        parent-keys="id:tenant_id"
+        value-column="name" keys="tenant_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #region attr="region" title="region" editable="no" required="no" content-align="left"></o-table-column>
+        
+          <o-table-column #id attr="id" title="id" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="SECURITYINCIDENT-tenant_id">
+    <div layout-padding>
+      <o-table 
+        attr="SecurityIncidentTable" 
+        service="SecurityIncident" 
+        entity="SecurityIncident" 
+        keys="id"
+        parent-keys="tenant_id:id"
+        columns="id;tenant_id;timestamp;details"  
+        horizontal-scroll="yes"
+        detail-form-route="SecurityIncident" 
+        edit-form-route="SecurityIncident"
+        visible-columns="id;tenant_id;timestamp;details"  
+        sort-columns="id" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #id attr="id" title=" id*" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+          <o-table-column attr="tenant_id" title="tenant_id">
+    <o-table-cell-renderer-service attr="tenant_id" 
+        service="Tenant" entity="TenantType" columns="id;name"
+        parent-keys="id:tenant_id"
+        value-column="name" keys="tenant_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #timestamp attr="timestamp" title="timestamp" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-table-column #details attr="details" title="details" editable="no" required="yes" content-align="left"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+        <mat-tab label="USER-tenant_id">
+    <div layout-padding>
+      <o-table 
+        attr="UserTable" 
+        service="User" 
+        entity="User" 
+        keys="id"
+        parent-keys="tenant_id:id"
+        columns="username;tenant_id;email;id"  
+        horizontal-scroll="yes"
+        detail-form-route="User" 
+        edit-form-route="User"
+        visible-columns="username;tenant_id;email;id"  
+        sort-columns="username" 
+        query-rows="25" 
+        quick-filter="yes"
+        row-height="medium" 
+        select-all-checkbox="true" 
+        pageable="yes"  
+        auto-adjust="true" 
+        virtual-scroll="yes" 
+        insert-button="yes" 
+        delete-button="yes" 
+        fixed-header="true" 
+        class="vertical-padding-8"
+        edition-mode="dblclick" 
+        horizontal-scroll="yes" class="fill-form">
+        
+          <o-table-column #username attr="username" title=" username*" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-table-column attr="tenant_id" title="tenant_id">
+    <o-table-cell-renderer-service attr="tenant_id" 
+        service="Tenant" entity="TenantType" columns="id;name"
+        parent-keys="id:tenant_id"
+        value-column="name" keys="tenant_id"
+        visible-columns="name" separator=" - " width="680px">
+    </o-table-cell-renderer-service>
+</o-table-column>
+        
+          <o-table-column #email attr="email" title="email" editable="no" required="yes" content-align="left"></o-table-column>
+        
+          <o-table-column #id attr="id" title="id" type="integer" editable="no" required="no" content-align="center"></o-table-column>
+        
+        <o-table-paginator page-size-options="25;50;100"></o-table-paginator>
+      </o-table>
+    </div>
+</mat-tab>
+        
+      </mat-tab-group>
+      
+    </o-form>
+  </o-form-container>
+</div>

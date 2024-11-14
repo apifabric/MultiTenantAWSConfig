@@ -1,0 +1,1 @@
+create an application to help configure a multi tenant, multi users, AWS system keeping track of containers, databases, S3 buckets

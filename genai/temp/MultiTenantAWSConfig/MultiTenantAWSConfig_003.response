@@ -1,0 +1,79 @@
+{
+    "models": [
+        {
+            "classname": "Tenant",
+            "code": "class Tenant(Base):\n    \"\"\"description: Represents a tenant in the system.\"\"\"\n    __tablename__ = 'tenants'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    name = Column(String, nullable=False)",
+            "description": "Represents a tenant in the system.",
+            "name": "Tenant"
+        },
+        {
+            "classname": "User",
+            "code": "class User(Base):\n    \"\"\"description: Represents a user associated with a tenant.\"\"\"\n    __tablename__ = 'users'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    tenant_id = Column(Integer, ForeignKey('tenants.id'), nullable=False)\n    username = Column(String, nullable=False)\n    email = Column(String, nullable=False)",
+            "description": "Represents a user associated with a tenant.",
+            "name": "User"
+        },
+        {
+            "classname": "Container",
+            "code": "class Container(Base):\n    \"\"\"description: Represents a container tracked in the AWS system.\"\"\"\n    __tablename__ = 'containers'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    tenant_id = Column(Integer, ForeignKey('tenants.id'), nullable=False)\n    name = Column(String, nullable=False)\n    status = Column(String)  # e.g., 'running', 'stopped'",
+            "description": "Represents a container tracked in the AWS system.",
+            "name": "Container"
+        },
+        {
+            "classname": "Database",
+            "code": "class Database(Base):\n    \"\"\"description: Represents a database managed by the application.\"\"\"\n    __tablename__ = 'databases'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    tenant_id = Column(Integer, ForeignKey('tenants.id'), nullable=False)\n    name = Column(String, nullable=False)\n    engine = Column(String)  # e.g., 'PostgreSQL', 'MySQL'\n    version = Column(String)",
+            "description": "Represents a database managed by the application.",
+            "name": "Database"
+        },
+        {
+            "classname": "S3Bucket",
+            "code": "class S3Bucket(Base):\n    \"\"\"description: Represents an S3 bucket owned by a tenant.\"\"\"\n    __tablename__ = 's3_buckets'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    tenant_id = Column(Integer, ForeignKey('tenants.id'), nullable=False)\n    name = Column(String, nullable=False)\n    region = Column(String)",
+            "description": "Represents an S3 bucket owned by a tenant.",
+            "name": "S3Bucket"
+        },
+        {
+            "classname": "UserContainerAccess",
+            "code": "class UserContainerAccess(Base):\n    \"\"\"description: Specifies which containers a user has access to.\"\"\"\n    __tablename__ = 'user_container_access'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)\n    container_id = Column(Integer, ForeignKey('containers.id'), nullable=False)",
+            "description": "Specifies which containers a user has access to.",
+            "name": "UserContainerAccess"
+        },
+        {
+            "classname": "UserDatabaseAccess",
+            "code": "class UserDatabaseAccess(Base):\n    \"\"\"description: Specifies which databases a user can access.\"\"\"\n    __tablename__ = 'user_database_access'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)\n    database_id = Column(Integer, ForeignKey('databases.id'), nullable=False)",
+            "description": "Specifies which databases a user can access.",
+            "name": "UserDatabaseAccess"
+        },
+        {
+            "classname": "UserS3BucketAccess",
+            "code": "class UserS3BucketAccess(Base):\n    \"\"\"description: Specifies which S3 buckets a user can access.\"\"\"\n    __tablename__ = 'user_s3_bucket_access'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)\n    s3_bucket_id = Column(Integer, ForeignKey('s3_buckets.id'), nullable=False)",
+            "description": "Specifies which S3 buckets a user can access.",
+            "name": "UserS3BucketAccess"
+        },
+        {
+            "classname": "ContainerLog",
+            "code": "class ContainerLog(Base):\n    \"\"\"description: Tracks logs/events from containers.\"\"\"\n    __tablename__ = 'container_logs'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    container_id = Column(Integer, ForeignKey('containers.id'), nullable=False)\n    timestamp = Column(DateTime, nullable=False)\n    message = Column(String, nullable=False)",
+            "description": "Tracks logs/events from containers.",
+            "name": "ContainerLog"
+        },
+        {
+            "classname": "DatabaseEvent",
+            "code": "class DatabaseEvent(Base):\n    \"\"\"description: Represents an event or change in the database.\"\"\"\n    __tablename__ = 'database_events'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    database_id = Column(Integer, ForeignKey('databases.id'), nullable=False)\n    event_time = Column(DateTime, nullable=False)\n    details = Column(String, nullable=False)",
+            "description": "Represents an event or change in the database.",
+            "name": "DatabaseEvent"
+        },
+        {
+            "classname": "S3BucketEvent",
+            "code": "class S3BucketEvent(Base):\n    \"\"\"description: Represents an event occurring in an S3 bucket.\"\"\"\n    __tablename__ = 's3_bucket_events'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    s3_bucket_id = Column(Integer, ForeignKey('s3_buckets.id'), nullable=False)\n    event_time = Column(DateTime, nullable=False)\n    description = Column(String, nullable=False)",
+            "description": "Represents an event occurring in an S3 bucket.",
+            "name": "S3BucketEvent"
+        },
+        {
+            "classname": "SecurityIncident",
+            "code": "class SecurityIncident(Base):\n    \"\"\"description: Logs security incidents related to any component.\"\"\"\n    __tablename__ = 'security_incidents'\n\n    id = Column(Integer, primary_key=True, autoincrement=True)\n    tenant_id = Column(Integer, ForeignKey('tenants.id'), nullable=False)\n    timestamp = Column(DateTime, nullable=False)\n    details = Column(String, nullable=False)",
+            "description": "Logs security incidents related to any component.",
+            "name": "SecurityIncident"
+        }
+    ],
+    "rules": [],
+    "test_data": "# Creating test data\n\nfrom datetime import date\n\n# Tenants\ntenant1 = Tenant(name=\"Alpha Tech\")\ntenant2 = Tenant(name=\"Beta Corp\")\ntenant3 = Tenant(name=\"Gamma Ltd\")\ntenant4 = Tenant(name=\"Delta Inc\")\n\n# Users\nuser1 = User(tenant_id=1, username=\"alice\", email=\"alice@alphatech.com\")\nuser2 = User(tenant_id=2, username=\"bob\", email=\"bob@betacorp.com\")\nuser3 = User(tenant_id=3, username=\"charlie\", email=\"charlie@gammaltd.com\")\nuser4 = User(tenant_id=4, username=\"david\", email=\"david@deltainc.com\")\n\n# Containers\ncontainer1 = Container(tenant_id=1, name=\"Container A\", status=\"running\")\ncontainer2 = Container(tenant_id=2, name=\"Container B\", status=\"stopped\")\ncontainer3 = Container(tenant_id=3, name=\"Container C\", status=\"running\")\ncontainer4 = Container(tenant_id=4, name=\"Container D\", status=\"stopped\")\n\n# Databases\ndatabase1 = Database(tenant_id=1, name=\"DB Alpha\", engine=\"PostgreSQL\", version=\"13\")\ndatabase2 = Database(tenant_id=2, name=\"DB Beta\", engine=\"MySQL\", version=\"5.7\")\ndatabase3 = Database(tenant_id=3, name=\"DB Gamma\", engine=\"SQLite\", version=\"3.32\")\ndatabase4 = Database(tenant_id=4, name=\"DB Delta\", engine=\"Oracle\", version=\"19c\")\n\n# S3 Buckets\ns3_bucket1 = S3Bucket(tenant_id=1, name=\"alpha-bucket\", region=\"us-west-1\")\ns3_bucket2 = S3Bucket(tenant_id=2, name=\"beta-bucket\", region=\"eu-central-1\")\ns3_bucket3 = S3Bucket(tenant_id=3, name=\"gamma-bucket\", region=\"ap-southeast-1\")\ns3_bucket4 = S3Bucket(tenant_id=4, name=\"delta-bucket\", region=\"us-east-1\")\n\n# User Container Access\nuser_container_access1 = UserContainerAccess(user_id=1, container_id=1)\nuser_container_access2 = UserContainerAccess(user_id=2, container_id=2)\nuser_container_access3 = UserContainerAccess(user_id=3, container_id=3)\nuser_container_access4 = UserContainerAccess(user_id=4, container_id=4)\n\n# User Database Access\nuser_database_access1 = UserDatabaseAccess(user_id=1, database_id=1)\nuser_database_access2 = UserDatabaseAccess(user_id=2, database_id=2)\nuser_database_access3 = UserDatabaseAccess(user_id=3, database_id=3)\nuser_database_access4 = UserDatabaseAccess(user_id=4, database_id=4)\n\n# User S3 Bucket Access\nuser_s3_bucket_access1 = UserS3BucketAccess(user_id=1, s3_bucket_id=1)\nuser_s3_bucket_access2 = UserS3BucketAccess(user_id=2, s3_bucket_id=2)\nuser_s3_bucket_access3 = UserS3BucketAccess(user_id=3, s3_bucket_id=3)\nuser_s3_bucket_access4 = UserS3BucketAccess(user_id=4, s3_bucket_id=4)\n\n# Container Logs\ncontainer_log1 = ContainerLog(container_id=1, timestamp=date(2023, 10, 1), message=\"Container started successfully.\")\ncontainer_log2 = ContainerLog(container_id=2, timestamp=date(2023, 10, 2), message=\"Container stopped unexpectedly.\")\ncontainer_log3 = ContainerLog(container_id=3, timestamp=date(2023, 10, 3), message=\"New deployment initiated.\")\ncontainer_log4 = ContainerLog(container_id=4, timestamp=date(2023, 10, 4), message=\"Maintenance mode enabled.\")\n\n# Database Events\ndatabase_event1 = DatabaseEvent(database_id=1, event_time=date(2023, 10, 1), details=\"Backup completed.\")\ndatabase_event2 = DatabaseEvent(database_id=2, event_time=date(2023, 10, 2), details=\"Schema updated.\")\ndatabase_event3 = DatabaseEvent(database_id=3, event_time=date(2023, 10, 3), details=\"New user role created.\")\ndatabase_event4 = DatabaseEvent(database_id=4, event_time=date(2023, 10, 4), details=\"Data import completed.\")\n\n# S3 Bucket Events\ns3_bucket_event1 = S3BucketEvent(s3_bucket_id=1, event_time=date(2023, 10, 1), description=\"Bucket policy updated.\")\ns3_bucket_event2 = S3BucketEvent(s3_bucket_id=2, event_time=date(2023, 10, 2), description=\"Objects archived.\")\ns3_bucket_event3 = S3BucketEvent(s3_bucket_id=3, event_time=date(2023, 10, 3), description=\"New object uploaded.\")\ns3_bucket_event4 = S3BucketEvent(s3_bucket_id=4, event_time=date(2023, 10, 4), description=\"Bucket tags modified.\")\n\n# Security Incidents\nsecurity_incident1 = SecurityIncident(tenant_id=1, timestamp=date(2023, 10, 1), details=\"Unauthorized access attempt detected.\")\nsecurity_incident2 = SecurityIncident(tenant_id=2, timestamp=date(2023, 10, 2), details=\"Malware scan initiated.\")\nsecurity_incident3 = SecurityIncident(tenant_id=3, timestamp=date(2023, 10, 3), details=\"Data breach risk assessed.\")\nsecurity_incident4 = SecurityIncident(tenant_id=4, timestamp=date(2023, 10, 4), details=\"Compliance audit performed.\")",
+    "name": "MultiTenantAWSConfig"
+}
